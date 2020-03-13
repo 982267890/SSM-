@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="题库:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="题库/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="题库" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
