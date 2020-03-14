@@ -10,13 +10,17 @@ import com.utils.Message;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service("accountService")
+@Transactional
 public class AccountService implements IAccountService {
     @Autowired
     private JwtToken jwtToken;
@@ -26,12 +30,15 @@ public class AccountService implements IAccountService {
     private IQuestion iQuestion;
     @Autowired
     private Message message;
+    @Autowired
+    private SimpleDateFormat sdf;
+    @Autowired
+    private Date date;
     @Override
     public List<User> findAll() {
         System.out.println("Service业务");
         return iUserDao.findAll();
     }
-
     @Override
     public String findAllQuestion() {
          List<Question> questions=iQuestion.findAllQuestion();
@@ -39,9 +46,28 @@ public class AccountService implements IAccountService {
          return new JSONObject(message).toString();
     }
 
+    public boolean time(User user){
+        return sdf.format(date).equals(user.getLogintime());
+    }
+    public void  time(String username, String userpwd){
+        User user=iUserDao.getUser(username,userpwd);
+        System.out.println(user);
+        if (!time(user)){
+            user.setLogintime(sdf.format(date));
+            user.setDayNum(user.getDayNum()+1);
+            iUserDao.updateUserLogintime(user);
+        }
+        System.out.println(iUserDao.getUser(username,userpwd));
+    }
+
     @Override
     public String getUser(String username, String userpwd, HttpSession session) {
         User user=iUserDao.getUser(username,userpwd);
+       if (!time(user)){
+           user.setDayNum(user.getDayNum()+1);
+           iUserDao.updateUserLogintime(user);
+       }
+
         if (user!=null){
             message.setData(jwtToken.createToken(user));
             user.setUserpwd(null);

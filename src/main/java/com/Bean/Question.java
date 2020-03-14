@@ -2,7 +2,13 @@ package com.Bean;
 
 import org.springframework.context.annotation.Bean;
 
-public class Question {
+import java.io.Serializable;
+
+/**
+ * 问题类
+ */
+public class Question  implements Serializable {
+
     private int questionId;
     private int questionNum;
     private String questionName;

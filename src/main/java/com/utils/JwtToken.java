@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import java.util.HashMap;
 import java.util.Map;
 @Component
-@Scope("request")
+//@Scope("request")
 public class JwtToken {
     public  void verifyToken(String token) {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256("secret"))
@@ -34,7 +34,8 @@ public class JwtToken {
              claims.get("username").asString(),null,
              Integer.parseInt(claims.get("solveNum").asString()),
              Integer.parseInt(claims.get("dayNum").asString()),
-             Integer.parseInt(claims.get("ideaNum").asString()));
+             Integer.parseInt(claims.get("ideaNum").asString()),
+             claims.get("logintime").asString());
          }catch (Exception e){
              System.out.println("token错误");
              return null;
@@ -50,6 +51,7 @@ public class JwtToken {
                 .withClaim("solveNum",String.valueOf(user.getSolveNum()))
                 .withClaim("dayNum",String.valueOf(user.getDayNum()))
                 .withClaim("ideaNum",String.valueOf(user.getIdeaNum()))
+                .withClaim("logintime",String.valueOf(user.getLogintime()))
                 .sign(Algorithm.HMAC256("secret")); //加密
         return token;
     }

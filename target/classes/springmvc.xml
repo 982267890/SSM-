@@ -5,7 +5,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tool="http://www.springframework.org/schema/tool"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tool http://www.springframework.org/schema/tool/spring-tool.xsd">
     <context:component-scan base-package="com.*"></context:component-scan>
 <!--    定义message-->
     <bean id="message" class="com.utils.Message"  scope="prototype"  >
@@ -33,6 +33,12 @@
             </set>
         </property>
     </bean>
+<!--    时间-->
+    <bean id="SimpleDateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg name="pattern" value="yyyy-MM-dd"></constructor-arg>
+    </bean>
+    <bean id="date" class="java.util.Date"></bean>
+
 
     <!--    视图解析器-->
     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -52,5 +58,47 @@
         <property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
         <property name="driverClass" value="${jdbc.driverClass}"></property>
     </bean>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+<!--&lt;!&ndash;    通用mapper&ndash;&gt;-->
+<!--    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">-->
+<!--        <property name="basePackage" value="com.Dao"/>-->
+<!--        &lt;!&ndash; 其他配置 &ndash;&gt;-->
+<!--    </bean>-->
+<!--    &lt;!&ndash;配置SqlSessionFactory,通过Spring来管理会话工厂&ndash;&gt;-->
+<!--    <bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+<!--        &lt;!&ndash;配置数据源：因为要使用SqlSession操作数据库&ndash;&gt;-->
+<!--        <property name="dataSource" ref="dataSource"></property>-->
+<!--        &lt;!&ndash;加载mybatis的全局配置文件&ndash;&gt;-->
+<!--        &lt;!&ndash;<property name="configLocation" value="classpath:mybatis.xml"></property>&ndash;&gt;-->
+<!--        &lt;!&ndash;Spring起别名&ndash;&gt;-->
+<!--        <property name="typeAliasesPackage" value="com.me.pojo"></property>-->
+<!--        &lt;!&ndash; 通用mapper插件的配置 &ndash;&gt;-->
+<!--        <property name="plugins">-->
+<!--            <array>-->
+<!--                &lt;!&ndash;pagehelper分页配置。 &ndash;&gt;-->
+<!--                <bean class="com.github.pagehelper.PageInterceptor">-->
+<!--                    <property name="properties">-->
+<!--                        <value>-->
+<!--                            helperDialect=mysql-->
+<!--                            offsetAsPageNum=true-->
+<!--                            &lt;!&ndash; 防止出现小于第一页，大于最后一页的异常情况出现。 &ndash;&gt;-->
+<!--                            reasonable=true-->
+<!--                        </value>-->
+<!--                    </property>-->
+<!--                </bean>-->
+<!--                <bean class="com.github.abel533.mapperhelper.MapperInterceptor">-->
+<!--                    <property name="properties">-->
+<!--                        <value>-->
+<!--                            &lt;!&ndash; 主键自增回写方法,默认值MYSQL &ndash;&gt;-->
+<!--                            IDENTITY=MYSQL-->
+<!--                            mappers=com.github.abel533.mapper.Mapper-->
+<!--                        </value>-->
+<!--                    </property>-->
+<!--                </bean>-->
+<!--            </array>-->
+<!--        </property>-->
+<!--    </bean>-->
 
 </beans>

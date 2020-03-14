@@ -15,6 +15,7 @@ import java.util.List;
  * 用户的持久层接口
  */
 @Repository
+@CacheNamespace(blocking = true) //二级缓存
 public interface IUserDao {
 
     /**
@@ -34,4 +35,8 @@ public interface IUserDao {
     void updateUserpwd(@Param("username")String username,@Param("userpwd")String userpwd);
     @Delete("delete from user where id=#{id}")
     void deleteUser(@Param("id")int id);
+    @Update("update user set logintime=#{logintime},daynum=#{dayNum} where id=#{id}")
+    void updateUserLogintime(User user);
+
+
 }

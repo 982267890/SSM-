@@ -1,6 +1,11 @@
 package com.Bean;
 
-public class Contnet {
+import java.io.Serializable;
+
+/**
+ * 回答类
+ */
+public class Contnet  implements Serializable {
     private int questionId;
     private String anwers;
     private String username;

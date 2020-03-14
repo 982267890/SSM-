@@ -4,7 +4,7 @@
     <title>Title</title>
 </head>
 <body>
-<a href="param/testParm/allUser">所有的User</a>
+<a href="/param/index">该User的详细信息</a>
 <a href="param/testParm/allQuestion">所有的User</a>
 <a href="question">题目</a>
 <form action="param/index/token" method="post">
